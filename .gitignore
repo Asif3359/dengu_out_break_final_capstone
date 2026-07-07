@@ -1,0 +1,73 @@
+# ====================================================
+# Python
+# ====================================================
+__pycache__/
+*.py[cod]
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+*.log
+
+# ====================================================
+# Jupyter Notebooks (if any)
+# ====================================================
+.ipynb_checkpoints/
+*.ipynb
+
+# ====================================================
+# Data files (raw, processed, and cache)
+# ====================================================
+data/*.csv
+data/*.parquet
+data/weather_cache/
+data/merged_data.csv
+
+# If you want to keep a small sample CSV, you can specify exceptions:
+# !data/sample.csv
+
+# ====================================================
+# Models & preprocessor artifacts
+# ====================================================
+models/*.joblib
+models/*.keras
+models/*.h5
+models/*.pkl
+models/*.onnx
+
+# ====================================================
+# Figures & plots
+# ====================================================
+figures/*.png
+figures/*.pdf
+figures/*.svg
+
+# ====================================================
+# Logs
+# ====================================================
+logs/*.log
+
+# ====================================================
+# Environment files (if you don't want to commit full env)
+# ====================================================
+# environment.yml  # usually committed, but you may keep it if small
+
+# ====================================================
+# IDE / OS
+# ====================================================
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# ====================================================
+# Temporary / scratch files
+# ====================================================
+*.tmp
+*.temp
+*.bak
+*.orig
+shap_values.npy
