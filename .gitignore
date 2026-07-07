@@ -1,6 +1,6 @@
-# ====================================================
+# ============================================================
 # Python
-# ====================================================
+# ============================================================
 __pycache__/
 *.py[cod]
 *.so
@@ -10,52 +10,57 @@ dist/
 build/
 *.log
 
-# ====================================================
-# Jupyter Notebooks (if any)
-# ====================================================
-.ipynb_checkpoints/
-*.ipynb
-
-# ====================================================
-# Data files (raw, processed, and cache)
-# ====================================================
+# Data (raw & processed) – large files
 data/*.csv
 data/*.parquet
 data/weather_cache/
 data/merged_data.csv
 
-# If you want to keep a small sample CSV, you can specify exceptions:
-# !data/sample.csv
+# If you want to keep a small sample CSV, use ! exceptions
+# !data/filtered_data_SEARO_1769008875181.csv
 
-# ====================================================
 # Models & preprocessor artifacts
-# ====================================================
 models/*.joblib
 models/*.keras
 models/*.h5
 models/*.pkl
-models/*.onnx
 
-# ====================================================
 # Figures & plots
-# ====================================================
 # figures/*.png
 figures/*.pdf
 figures/*.svg
 
-# ====================================================
 # Logs
-# ====================================================
 # logs/*.log
 
-# ====================================================
-# Environment files (if you don't want to commit full env)
-# ====================================================
-# environment.yml  # usually committed, but you may keep it if small
+# Environment (optional – commit environment.yml but not .env)
+.env
+.venv
+env/
 
-# ====================================================
+# ============================================================
+# Node.js / Next.js (dashboard)
+# ============================================================
+dashboard/node_modules/
+dashboard/.next/
+dashboard/out/
+dashboard/build/
+dashboard/dist/
+dashboard/.env.local
+dashboard/.env*.local
+dashboard/*.log
+
+# ============================================================
+# Backend (Python) – if you add a virtual environment inside
+# ============================================================
+backend/venv/
+backend/__pycache__/
+backend/*.pyc
+backend/.env
+
+# ============================================================
 # IDE / OS
-# ====================================================
+# ============================================================
 .vscode/
 .idea/
 *.swp
@@ -63,9 +68,9 @@ figures/*.svg
 .DS_Store
 Thumbs.db
 
-# ====================================================
+# ============================================================
 # Temporary / scratch files
-# ====================================================
+# ============================================================
 *.tmp
 *.temp
 *.bak
