@@ -39,7 +39,7 @@ models/*.onnx
 # ====================================================
 # Figures & plots
 # ====================================================
-figures/*.png
+# figures/*.png
 figures/*.pdf
 figures/*.svg
 
