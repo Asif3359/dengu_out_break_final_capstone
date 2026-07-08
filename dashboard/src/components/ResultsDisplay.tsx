@@ -26,7 +26,7 @@ export default function ResultsDisplay({ result }: Props) {
         {/* <Progress value={result.outbreak_probability * 100} className="h-2" /> */}
 
         <Alert variant={isOutbreak ? 'destructive' : 'default'}>
-          <AlertTitle>{isOutbreak ? '⚠️ Outbreak Likely' : '✅ No Outbreak'}</AlertTitle>
+          <AlertTitle>{isOutbreak ? 'Outbreak Likely' : ' No Outbreak'}</AlertTitle>
           <AlertDescription>
             {isOutbreak
               ? 'The model predicts a high probability of outbreak. Take preventive measures.'
