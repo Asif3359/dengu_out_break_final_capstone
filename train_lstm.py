@@ -278,7 +278,7 @@ def shap_explain(model, X_sample, feature_names, model_type='lstm'):
 # ===========================================================================
 def main():
     logger.info("="*60)
-    logger.info("🚀 LSTM & TRANSFORMER TRAINING WITH SMOTE, WEIGHTS & THRESHOLD")
+    logger.info("   LSTM & TRANSFORMER TRAINING WITH SMOTE, WEIGHTS & THRESHOLD")
     logger.info("="*60)
 
     LOOKBACK = 12
@@ -318,7 +318,7 @@ def main():
         best_name = "Transformer"
         best_metrics = transformer_metrics
 
-    logger.info(f"🏆 BEST MODEL: {best_name} (F1: {best_metrics['f1']:.4f})")
+    logger.info(f"   BEST MODEL: {best_name} (F1: {best_metrics['f1']:.4f})")
 
     # Save best model
     os.makedirs("models", exist_ok=True)
@@ -347,7 +347,7 @@ def main():
     shap_explain(best_model, X_test[:20], feature_cols, best_name.lower())
 
     logger.info("\n" + "="*60)
-    logger.info("✅ TRAINING COMPLETE.")
+    logger.info("TRAINING COMPLETE.")
     logger.info("="*60)
 
 

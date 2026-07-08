@@ -43,24 +43,24 @@ def analyze_raw_data():
     print("="*70)
 
     df_raw = pd.read_csv(RAW_DATA_PATH, low_memory=False)
-    print(f"\n✅ Loaded {len(df_raw)} rows and {len(df_raw.columns)} columns.")
+    print(f"\noaded {len(df_raw)} rows and {len(df_raw.columns)} columns.")
 
-    print("\n📊 Basic Info:")
+    print("\nBasic Info:")
     print(df_raw.info())
 
-    print("\n📈 Descriptive Statistics:")
+    print("\nDescriptive Statistics:")
     print(df_raw.describe(include='all'))
 
-    print(f"\n🌍 Unique countries: {df_raw['adm_0_name'].unique()}")
+    print(f"\nUnique countries: {df_raw['adm_0_name'].unique()}")
     print(f"   ISO codes: {df_raw['ISO_A0'].unique()}")
 
     total_cases = df_raw['dengue_total'].sum()
-    print(f"\n🦟 Total dengue cases (all time): {total_cases:,}")
+    print(f"\nTotal dengue cases (all time): {total_cases:,}")
     print("   By country:")
     print(df_raw.groupby('adm_0_name')['dengue_total'].sum().sort_values(ascending=False))
 
     # Missing values
-    print("\n🔍 Missing values per column:")
+    print("\nMissing values per column:")
     print(df_raw.isnull().sum())
 
     # ========== Raw: Class distribution per country ==========
@@ -72,7 +72,7 @@ def analyze_raw_data():
     raw_country_counts.columns = ['No Outbreak', 'Outbreak']
     raw_country_counts['Total'] = raw_country_counts.sum(axis=1)
     raw_country_counts['Outbreak %'] = (raw_country_counts['Outbreak'] / raw_country_counts['Total'] * 100).round(2)
-    print("\n📊 Detailed class distribution by country (raw):")
+    print("\nDetailed class distribution by country (raw):")
     print(raw_country_counts.to_string())
 
     # Stacked bar for raw
@@ -86,7 +86,7 @@ def analyze_raw_data():
     plt.tight_layout()
     plt.savefig(f"{FIGURES_DIR}/raw_class_counts_by_country.png", dpi=150)
     plt.show()
-    print(f"✅ Saved raw class counts bar chart to {FIGURES_DIR}/raw_class_counts_by_country.png")
+    print(f"Saved raw class counts bar chart to {FIGURES_DIR}/raw_class_counts_by_country.png")
 
     # Time series plot (raw data)
     df_raw['calendar_start_date'] = pd.to_datetime(df_raw['calendar_start_date'])
@@ -104,7 +104,7 @@ def analyze_raw_data():
     plt.tight_layout()
     plt.savefig(f"{FIGURES_DIR}/raw_dengue_timeseries.png", dpi=150)
     plt.show()
-    print(f"✅ Raw time-series plot saved to {FIGURES_DIR}/raw_dengue_timeseries.png")
+    print(f"Raw time-series plot saved to {FIGURES_DIR}/raw_dengue_timeseries.png")
 
     return df_raw
 
@@ -117,23 +117,23 @@ def analyze_merged_data():
     print("="*70)
 
     df = pd.read_csv(MERGED_DATA_PATH, low_memory=False)
-    print(f"\n✅ Loaded {len(df)} rows and {len(df.columns)} columns.")
+    print(f"\nLoaded {len(df)} rows and {len(df.columns)} columns.")
 
     # Basic info & missing values
-    print("\n📊 Basic Info:")
+    print("\nBasic Info:")
     print(df.info())
 
-    print("\n🔍 Missing values per column:")
+    print("\nMissing values per column:")
     print(df.isnull().sum())
 
     # Target variable
     df['outbreak_flag'] = (df['dengue_total'] > 0).astype(int)
 
-    print("\n📊 Summary of 'dengue_total':")
+    print("\nSummary of 'dengue_total':")
     print(df['dengue_total'].describe(percentiles=[0.25, 0.5, 0.75, 0.9, 0.95, 0.99]))
 
     outbreak_counts = df['outbreak_flag'].value_counts()
-    print("\n🦟 Outbreak vs Non-Outbreak counts:")
+    print("\nOutbreak vs Non-Outbreak counts:")
     print(outbreak_counts)
     print(f"   Percentage of outbreaks: {outbreak_counts[1] / len(df) * 100:.2f}%")
 
@@ -145,7 +145,7 @@ def analyze_merged_data():
     country_counts.columns = ['No Outbreak', 'Outbreak']
     country_counts['Total'] = country_counts.sum(axis=1)
     country_counts['Outbreak %'] = (country_counts['Outbreak'] / country_counts['Total'] * 100).round(2)
-    print("\n📊 Detailed class distribution by country (merged):")
+    print("\nDetailed class distribution by country (merged):")
     print(country_counts.to_string())
 
     # Stacked bar chart for merged
@@ -159,7 +159,7 @@ def analyze_merged_data():
     plt.tight_layout()
     plt.savefig(f"{FIGURES_DIR}/merged_class_counts_by_country.png", dpi=150)
     plt.show()
-    print(f"✅ Saved merged class counts bar chart to {FIGURES_DIR}/merged_class_counts_by_country.png")
+    print(f"Saved merged class counts bar chart to {FIGURES_DIR}/merged_class_counts_by_country.png")
 
     # Target distribution plot
     fig, axes = plt.subplots(1, 2, figsize=(14, 5))
@@ -177,18 +177,18 @@ def analyze_merged_data():
     plt.tight_layout()
     plt.savefig(f"{FIGURES_DIR}/merged_target_distribution.png", dpi=150)
     plt.show()
-    print(f"✅ Saved target distribution plot to {FIGURES_DIR}/merged_target_distribution.png")
+    print(f"Saved target distribution plot to {FIGURES_DIR}/merged_target_distribution.png")
 
     # Numerical feature summary
     numeric_cols = df.select_dtypes(include=[np.number]).columns.tolist()
     exclude_cols = ['dengue_total', 'outbreak_flag', 'Year', 'time_index', 'year_normalized']
     feature_cols = [col for col in numeric_cols if col not in exclude_cols]
 
-    print(f"\n📈 Summary of {len(feature_cols)} numeric features (showing first 5):")
+    print(f"\n Summary of {len(feature_cols)} numeric features (showing first 5):")
     print(df[feature_cols].describe().T.head(10))
 
     # Outlier detection
-    print("\n🔍 Outlier detection (IQR method) for top 5 features:")
+    print("\n  Outlier detection (IQR method) for top 5 features:")
     for col in feature_cols[:5]:
         Q1 = df[col].quantile(0.25)
         Q3 = df[col].quantile(0.75)
@@ -220,7 +220,7 @@ def analyze_merged_data():
     plt.tight_layout()
     plt.savefig(f"{FIGURES_DIR}/merged_correlation_heatmap.png", dpi=150)
     plt.show()
-    print(f"✅ Saved correlation heatmap to {FIGURES_DIR}/merged_correlation_heatmap.png")
+    print(f"  Saved correlation heatmap to {FIGURES_DIR}/merged_correlation_heatmap.png")
 
     # Feature importance (Random Forest Regressor)
     X = df[feature_cols]
@@ -231,7 +231,7 @@ def analyze_merged_data():
     importances = rf_reg.feature_importances_
     feature_imp = pd.Series(importances, index=feature_cols).sort_values(ascending=False)
 
-    print("\n🏆 Top 10 most important features (regression):")
+    print("\n Top 10 most important features (regression):")
     print(feature_imp.head(10))
 
     plt.figure(figsize=(10, 8))
@@ -243,7 +243,7 @@ def analyze_merged_data():
     plt.tight_layout()
     plt.savefig(f"{FIGURES_DIR}/merged_feature_importance.png", dpi=150)
     plt.show()
-    print(f"✅ Saved feature importance plot to {FIGURES_DIR}/merged_feature_importance.png")
+    print(f" Saved feature importance plot to {FIGURES_DIR}/merged_feature_importance.png")
 
     # Time series by country (merged)
     df['calendar_start_date'] = pd.to_datetime(df['calendar_start_date'])
@@ -261,7 +261,7 @@ def analyze_merged_data():
     plt.tight_layout()
     plt.savefig(f"{FIGURES_DIR}/merged_timeseries_by_country.png", dpi=150)
     plt.show()
-    print(f"✅ Saved time series plots to {FIGURES_DIR}/merged_timeseries_by_country.png")
+    print(f" Saved time series plots to {FIGURES_DIR}/merged_timeseries_by_country.png")
 
     # Seasonality
     monthly_avg = df.groupby('month')['dengue_total'].mean().reset_index()
@@ -275,11 +275,11 @@ def analyze_merged_data():
     plt.tight_layout()
     plt.savefig(f"{FIGURES_DIR}/merged_seasonality_monthly.png", dpi=150)
     plt.show()
-    print(f"✅ Saved seasonality plot to {FIGURES_DIR}/merged_seasonality_monthly.png")
+    print(f" Saved seasonality plot to {FIGURES_DIR}/merged_seasonality_monthly.png")
 
     # Class imbalance by country (mean)
     country_outbreak = df.groupby('ISO_A0')['outbreak_flag'].mean().sort_values(ascending=False)
-    print("\n📊 Outbreak proportion by country (mean):")
+    print("\n  Outbreak proportion by country (mean):")
     print(country_outbreak)
 
     plt.figure(figsize=(10, 5))
@@ -291,16 +291,16 @@ def analyze_merged_data():
     plt.tight_layout()
     plt.savefig(f"{FIGURES_DIR}/merged_outbreak_proportion.png", dpi=150)
     plt.show()
-    print(f"✅ Saved outbreak proportion plot to {FIGURES_DIR}/merged_outbreak_proportion.png")
+    print(f" Saved outbreak proportion plot to {FIGURES_DIR}/merged_outbreak_proportion.png")
 
     # Summary
     print("\n" + "="*70)
     print(" MERGED DATASET EDA COMPLETE")
     print("="*70)
-    print(f"✅ Total rows: {len(df)}")
-    print(f"✅ Total features: {len(df.columns)}")
-    print(f"✅ Outbreak percentage: {outbreak_counts[1] / len(df) * 100:.2f}%")
-    print(f"✅ Top 3 important features (regression):")
+    print(f" Total rows: {len(df)}")
+    print(f" Total features: {len(df.columns)}")
+    print(f" Outbreak percentage: {outbreak_counts[1] / len(df) * 100:.2f}%")
+    print(f" Top 3 important features (regression):")
     print(feature_imp.head(3))
 
     return df, feature_cols
@@ -334,7 +334,7 @@ def demonstrate_smote(df, feature_cols):
     # Show as a DataFrame
     before = pd.DataFrame({'Class': ['No Outbreak', 'Outbreak'], 'Count': np.bincount(y_train)})
     after = pd.DataFrame({'Class': ['No Outbreak', 'Outbreak'], 'Count': np.bincount(y_train_res)})
-    print("\n📊 Class balance comparison (training set):")
+    print("\n Class balance comparison (training set):")
     print("Before SMOTE:")
     print(before)
     print("\nAfter SMOTE:")
@@ -351,7 +351,7 @@ def demonstrate_smote(df, feature_cols):
     plt.tight_layout()
     plt.savefig(f"{FIGURES_DIR}/smote_effect.png", dpi=150)
     plt.show()
-    print(f"✅ Saved SMOTE effect plot to {FIGURES_DIR}/smote_effect.png")
+    print(f" Saved SMOTE effect plot to {FIGURES_DIR}/smote_effect.png")
     print(f"   SMOTE increased minority class from {np.bincount(y_train)[0]} to {np.bincount(y_train_res)[0]} samples.")
 
 # ===========================================================================
@@ -372,7 +372,7 @@ def main():
     demonstrate_smote(df_merged, feature_cols)
 
     print("\n" + "="*70)
-    print("🎉 ALL EDA COMPLETE. ALL PLOTS SAVED TO 'figures/' DIRECTORY.")
+    print("ALL EDA COMPLETE. ALL PLOTS SAVED TO 'figures/' DIRECTORY.")
     print("="*70)
 
 if __name__ == "__main__":

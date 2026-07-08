@@ -82,7 +82,7 @@ def evaluate_model(y_true, y_pred, y_proba, threshold):
 
 def main():
     logger.info("="*60)
-    logger.info("🚀 MULTI‑MODEL TRAINING & SELECTION")
+    logger.info("   MULTI‑MODEL TRAINING & SELECTION")
     logger.info("="*60)
 
     # 1. Load data
@@ -226,7 +226,7 @@ def main():
     best_threshold = best_metrics['threshold']
 
     logger.info("\n" + "-"*60)
-    logger.info(f"🏆 BEST MODEL: {best_name}")
+    logger.info(f"   BEST MODEL: {best_name}")
     logger.info(f"   Macro F1 (test): {best_metrics['macro_f1']:.4f}")
     logger.info(f"   Accuracy       : {best_metrics['accuracy']:.4f}")
     logger.info(f"   F1 (class 1)   : {best_metrics['f1']:.4f}")
@@ -269,7 +269,7 @@ def main():
     logger.info("Confusion Matrix:\n" + str(confusion_matrix(y_test, y_pred_final)))
 
     logger.info("\n" + "="*60)
-    logger.info(f"✅ TRAINING COMPLETE. Best model: {best_name}")
+    logger.info(f"TRAINING COMPLETE. Best model: {best_name}")
     logger.info(f"   Macro F1: {best_metrics['macro_f1']:.4f}")
     logger.info("="*60)
 

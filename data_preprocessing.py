@@ -103,15 +103,15 @@ def add_weather_to_dataframe(df, country_col='ISO_A0'):
     weather_frames = []
     for iso in cpy[country_col].unique():
         if iso not in ISO_TO_LATLON:
-            print(f"⚠️  Skipping {iso}: no lat/lon mapping.")
+            print(f"  Skipping {iso}: no lat/lon mapping.")
             continue
         lat, lon = ISO_TO_LATLON[iso]
         cache_file = f"{WEATHER_CACHE_DIR}/{iso}_{start_year}_{end_year}.parquet"
         if os.path.exists(cache_file):
-            print(f"📂 Loading cached weather for {iso}")
+            print(f" Loading cached weather for {iso}")
             w_df = pd.read_parquet(cache_file)
         else:
-            print(f"📡 Fetching weather for {iso} ({lat}, {lon})...")
+            print(f"Fetching weather for {iso} ({lat}, {lon})...")
             try:
                 w_df = fetch_nasa_power_monthly(lat, lon, start_year, end_year)
                 w_df.to_parquet(cache_file, index=False)
@@ -124,12 +124,12 @@ def add_weather_to_dataframe(df, country_col='ISO_A0'):
         weather_frames.append(w_df)
 
     if not weather_frames:
-        print("⚠️  No weather data fetched. Returning original dataframe.")
+        print(" No weather data fetched. Returning original dataframe.")
         return cpy
 
     weather_all = pd.concat(weather_frames, ignore_index=True)
     merged = cpy.merge(weather_all, on=[country_col, 'year', 'month'], how='left')
-    print(f"✅ Merged weather. Rows: {len(merged)}, Missing cells: {merged[['temperature_c','precipitation_mm']].isna().sum().sum()}")
+    print(f" Merged weather. Rows: {len(merged)}, Missing cells: {merged[['temperature_c','precipitation_mm']].isna().sum().sum()}")
     return merged
 
 # ===========================================================================
@@ -140,11 +140,11 @@ def run_eda(df):
     print("\n" + "="*60)
     print("EXPLORATORY DATA ANALYSIS")
     print("="*60)
-    print("\n📊 Basic Info:")
+    print("\n Basic Info:")
     print(df.info())
-    print("\n📈 Descriptive Statistics:")
+    print("\n  Descriptive Statistics:")
     print(df.describe())
-    print(f"\n🌍 Unique countries: {df['adm_0_name'].unique()}")
+    print(f"\n Unique countries: {df['adm_0_name'].unique()}")
     print(f"   ISO codes: {df['ISO_A0'].unique()}")
 
     total_cases = df['dengue_total'].sum()
@@ -168,7 +168,7 @@ def run_eda(df):
     plt.tight_layout()
     plt.savefig('figures/dengue_timeseries.png', dpi=150)
     plt.show()
-    print("✅ Time series plot saved.")
+    print(" Time series plot saved.")
 
     # Monthly boxplot
     df['month'] = df['calendar_start_date'].dt.month
@@ -180,7 +180,7 @@ def run_eda(df):
     plt.tight_layout()
     plt.savefig('figures/dengue_monthly_boxplot.png', dpi=150)
     plt.show()
-    print("✅ Seasonal boxplot saved.")
+    print(" Seasonal boxplot saved.")
 
 # ===========================================================================
 # FEATURE ENGINEERING (FIXED)
@@ -276,7 +276,7 @@ def engineer_features(df):
     if 'outbreak_flag' not in df.columns:
         df['outbreak_flag'] = (df['dengue_total'] > 0).astype(int)
 
-    print(f"✅ Feature engineering complete. New shape: {df.shape}")
+    print(f" Feature engineering complete. New shape: {df.shape}")
     return df
 
 # ===========================================================================
@@ -288,9 +288,9 @@ def main():
     print("="*60)
 
     # 1. Load raw data
-    print("\n📂 Loading raw dengue data...")
+    print("\n Loading raw dengue data...")
     if not os.path.exists(RAW_DATA_PATH):
-        print(f"❌ File not found: {RAW_DATA_PATH}")
+        print(f"File not found: {RAW_DATA_PATH}")
         sys.exit(1)
     df_raw = pd.read_csv(RAW_DATA_PATH, low_memory=False)
     print(f"   Loaded {len(df_raw)} rows, {len(df_raw.columns)} columns.")
@@ -313,18 +313,18 @@ def main():
     initial_len = len(df_final)
     df_final = df_final.dropna().reset_index(drop=True)
     dropped = initial_len - len(df_final)
-    print(f"\n✅ Dropped {dropped} rows with NaNs. Remaining: {len(df_final)} rows.")
+    print(f"\n Dropped {dropped} rows with NaNs. Remaining: {len(df_final)} rows.")
 
     # 6. Save
     df_final.to_csv(OUTPUT_DATA_PATH, index=False)
-    print(f"\n✅ Final dataset saved to: {OUTPUT_DATA_PATH}")
+    print(f"\n Final dataset saved to: {OUTPUT_DATA_PATH}")
 
     # 7. Summary
-    print("\n📋 Final feature list:")
+    print("\n Final feature list:")
     print(df_final.columns.tolist())
     print(f"\n   Total features: {len(df_final.columns)}")
     print(f"   Final rows: {len(df_final)}")
-    print("\n🎉 Preprocessing complete! Run 'python train.py' now.")
+    print("\n Preprocessing complete! Run 'python train.py' now.")
 
 if __name__ == "__main__":
     main()
