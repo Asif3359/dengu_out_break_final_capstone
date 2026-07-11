@@ -11,10 +11,10 @@ build/
 *.log
 
 # Data (raw & processed) – large files
-data/*.csv
-data/*.parquet
-data/weather_cache/
-data/merged_data.csv
+# data/*.csv
+# data/*.parquet
+# data/weather_cache/
+# data/merged_data.csv
 
 # If you want to keep a small sample CSV, use ! exceptions
 # !data/filtered_data_SEARO_1769008875181.csv
