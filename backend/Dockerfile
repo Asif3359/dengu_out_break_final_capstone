@@ -2,10 +2,15 @@ FROM python:3.11-slim
 
 WORKDIR /app
 
-COPY requirements.txt .
+# Copy and install dependencies (relative to backend folder)
+COPY backend/requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY . .
+# Copy the entire backend code
+COPY backend/ .
+
+# Copy the models from the parent directory (since build context will be the repo root)
+COPY models/ /app/models
 
 ENV PYTHONPATH=/app
 ENV MODEL_DIR=/app/models
