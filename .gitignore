@@ -20,10 +20,10 @@ build/
 # !data/filtered_data_SEARO_1769008875181.csv
 
 # Models & preprocessor artifacts
-models/*.joblib
-models/*.keras
-models/*.h5
-models/*.pkl
+# models/*.joblib
+# models/*.keras
+# models/*.h5
+# models/*.pkl
 
 # Figures & plots
 # figures/*.png
