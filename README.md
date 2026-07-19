@@ -87,14 +87,14 @@ The system is designed for public health officials and researchers to assess out
 
 ## Tech Stack
 
-| Layer | Technologies |
-|-------|--------------|
+| Layer        | Technologies                                                        |
+| ------------ | ------------------------------------------------------------------- |
 | **Frontend** | Next.js (App Router), TypeScript, Tailwind CSS, ShadCN UI, Recharts |
-| **Backend** | FastAPI, Python 3.11+, Pydantic, Uvicorn |
-| **ML** | XGBoost, Scikit‑learn, Pandas, NumPy, Joblib |
-| **Data** | OpenDengue (CSV), NASA POWER API (JSON), Parquet cache |
-| **DevOps** | Docker, Docker Compose, Git |
-| **Testing** | Pytest, HTTPX |
+| **Backend**  | FastAPI, Python 3.11+, Pydantic, Uvicorn                            |
+| **ML**       | XGBoost, Scikit‑learn, Pandas, NumPy, Joblib                        |
+| **Data**     | OpenDengue (CSV), NASA POWER API (JSON), Parquet cache              |
+| **DevOps**   | Docker, Docker Compose, Git                                         |
+| **Testing**  | Pytest, HTTPX                                                       |
 
 ---
 
@@ -124,24 +124,29 @@ cd dengu_out_break_final_capstone
 #### Option A: Local Development (with Conda)
 
 1. **Create and activate a conda environment** (Python 3.11):
+
    ```bash
    conda create -n dengue_dev python=3.11
    conda activate dengue_dev
    ```
 
 2. **Install dependencies**:
+
    ```bash
    cd backend
    pip install -r requirements.txt
    ```
 
 3. **Copy environment variables**:
+
    ```bash
    cp .env.example .env
    ```
+
    Edit `.env` if needed (defaults usually work).
 
 4. **Run the API server**:
+
    ```bash
    uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
    ```
@@ -162,6 +167,7 @@ The API will be available at `http://localhost:8000`.
 ### Frontend Setup
 
 1. **Install dependencies**:
+
    ```bash
    cd dashboard
    npm install
@@ -169,11 +175,13 @@ The API will be available at `http://localhost:8000`.
 
 2. **Set environment variables**:
    Create `.env.local`:
+
    ```env
    NEXT_PUBLIC_API_URL=http://localhost:8000
    ```
 
 3. **Run the development server**:
+
    ```bash
    npm run dev
    ```
@@ -202,21 +210,21 @@ npm run dev
 
 ### Backend (`.env`)
 
-| Variable | Description | Default |
-|----------|-------------|---------|
-| `MODEL_DIR` | Path to the models folder | `../models` |
-| `MODEL_FILENAME` | Name of the serialised model | `model.joblib` |
-| `SCALER_FILENAME` | Name of the scaler file | `scaler.joblib` |
-| `FEATURE_NAMES_FILE` | File listing feature order | `feature_names.json` |
-| `METADATA_FILE` | File with model metadata | `metadata.json` |
-| `DEFAULT_THRESHOLD` | Fallback classification threshold | `0.5` |
-| `CORS_ORIGINS` | Comma‑separated allowed origins | `["http://localhost:3000"]` |
+| Variable             | Description                       | Default                     |
+| -------------------- | --------------------------------- | --------------------------- |
+| `MODEL_DIR`          | Path to the models folder         | `../models`                 |
+| `MODEL_FILENAME`     | Name of the serialised model      | `model.joblib`              |
+| `SCALER_FILENAME`    | Name of the scaler file           | `scaler.joblib`             |
+| `FEATURE_NAMES_FILE` | File listing feature order        | `feature_names.json`        |
+| `METADATA_FILE`      | File with model metadata          | `metadata.json`             |
+| `DEFAULT_THRESHOLD`  | Fallback classification threshold | `0.5`                       |
+| `CORS_ORIGINS`       | Comma‑separated allowed origins   | `["http://localhost:3000"]` |
 
 ### Frontend (`.env.local`)
 
-| Variable | Description | Required |
-|----------|-------------|----------|
-| `NEXT_PUBLIC_API_URL` | Backend API base URL | Yes |
+| Variable              | Description          | Required |
+| --------------------- | -------------------- | -------- |
+| `NEXT_PUBLIC_API_URL` | Backend API base URL | Yes      |
 
 ---
 
@@ -295,11 +303,11 @@ outbreak_final/
 
 Once the backend is running, Swagger UI is available at `/docs`. The main endpoints are:
 
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| `GET`  | `/health` | Health check |
-| `GET`  | `/api/v1/feature_names` | Returns list of required features |
-| `POST` | `/api/v1/predict` | Single prediction |
+| Method | Endpoint                | Description                                  |
+| ------ | ----------------------- | -------------------------------------------- |
+| `GET`  | `/health`               | Health check                                 |
+| `GET`  | `/api/v1/feature_names` | Returns list of required features            |
+| `POST` | `/api/v1/predict`       | Single prediction                            |
 | `POST` | `/api/v1/predict_batch` | Batch predictions (array of feature objects) |
 
 ### Example Request
